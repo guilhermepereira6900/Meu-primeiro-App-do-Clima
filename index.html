@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu App do Clima ☀️</title>
+    <style>
+        /* Um CSS basicão só para não ficar feio */
+        body { font-family: Arial, sans-serif; background: #e0f2fe; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-align: center; width: 300px; }
+        input { padding: 10px; width: 70%; border: 1px solid #ccc; border-radius: 6px; }
+        button { padding: 10px; background: #0284c7; color: white; border: none; border-radius: 6px; cursor: pointer; }
+        .resultado { margin-top: 20px; display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>App do Clima</h2>
+        <input type="text" id="cidade" placeholder="Digite a cidade...">
+        <button id="buscar">Buscar</button>
+
+        <div class="resultado" id="resultado">
+            <h3 id="nome-cidade">Cidade</h3>
+            <p id="temperatura">--°C</p>
+            <p id="descricao">Tempo</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
