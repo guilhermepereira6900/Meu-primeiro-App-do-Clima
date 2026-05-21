@@ -3,43 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu App do Clima ☀️</title>
+    <title>App do Clima ☀️</title>
     <style>
-        /* Um CSS basicão só para não ficar feio */
-        body { font-family: Arial, sans-serif; background: #e0f2fe; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .container { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-align: center; width: 300px; }
-        input { padding: 10px; width: 70%; border: 1px solid #ccc; border-radius: 6px; }
-        button { padding: 10px; background: #0284c7; color: white; border: none; border-radius: 6px; cursor: pointer; }
-        .resultado { margin-top: 20px; display: none; }
+        /* Fundo com degradê suave e centralização total */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #bfdbfe, #eff6ff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #334155;
+        }
+
+        /* O Balão Único Centralizado */
+        .card {
+            background: white;
+            width: 100%;
+            max-width: 400px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            text-align: center;
+        }
+
+        /* Cabeçalho Azul */
+        .card-header {
+            background: #93c5fd;
+            padding: 20px;
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Corpo do Card */
+        .card-body {
+            padding: 25px;
+        }
+
+        h3 {
+            margin: 0 0 5px 0;
+            font-size: 18px;
+        }
+
+        p.subtext {
+            font-size: 13px;
+            color: #64748b;
+            margin: 0 0 15px 0;
+        }
+
+        /* Inputs Modernos */
+        .input-group {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 14px;
+            box-sizing: border-box;
+            background-color: #f8fafc;
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background-color: #fff;
+        }
+
+        /* Botões */
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: #fff;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: #f1f5f9;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        /* Container de Busca (Input + Botão lado a lado) */
+        .search-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .search-container input {
+            flex: 1;
+        }
+
+        .search-container .btn {
+            width: auto;
+            padding: 12px 20px;
+        }
+
+        /* Divisória */
+        hr {
+            border: 0;
+            height: 1px;
+            background: #e2e8f0;
+            margin: 25px 0;
+        }
+
+        /* Seção do Resultado */
+        .resultado {
+            display: none; /* Começa escondido, JS mostra depois */
+            margin-top: 20px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .cidade-titulo {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .temp-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .clima-icone {
+            font-size: 40px;
+        }
+
+        .descricao {
+            font-size: 18px;
+            text-transform: capitalize;
+            color: #475569;
+            margin-bottom: 15px;
+        }
+
+        .detalhes {
+            font-size: 14px;
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-    <h2>App do Clima</h2>
-    
-    <input type="password" id="api-key" placeholder="Cole sua OpenWeather API Key aqui...">
-    <br><br>
-    
-    <input type="text" id="cidade" placeholder="Digite a cidade...">
-    <button id="buscar">Buscar</button>
+    <div class="card">
+        <div class="card-header">App do Clima ☀️</div>
+        
+        <div class="card-body">
+            <h3>Configuração da API</h3>
+            <p class="subtext">Insira sua OpenWeather API Key para começar</p>
+            
+            <div class="input-group">
+                <input type="password" id="api-key" placeholder="Cole sua OpenWeather API Key aqui...">
+            </div>
+            <button class="btn" id="btn-salvar">Salvar Chave</button>
 
-    <div class="resultado" id="resultado">
-        <h3 id="nome-cidade">Cidade</h3>
-        <p id="temperatura">--°C</p>
-        <p id="descricao">Tempo</p>
-    </div>
-</div>
+            <hr>
 
-    <div class="container">
-        <h2>App do Clima</h2>
-        <input type="text" id="cidade" placeholder="Digite a cidade...">
-        <button id="buscar">Buscar</button>
+            <h3>Buscar Clima</h3>
+            <div class="search-container">
+                <input type="text" id="cidade" placeholder="Digite a cidade...">
+                <button class="btn btn-primary" id="buscar">🔍 Buscar</button>
+            </div>
 
-        <div class="resultado" id="resultado">
-            <h3 id="nome-cidade">Cidade</h3>
-            <p id="temperatura">--°C</p>
-            <p id="descricao">Tempo</p>
+            <div class="resultado" id="resultado">
+                <div class="cidade-titulo" id="nome-cidade">São Paulo, BR</div>
+                
+                <div class="temp-container">
+                    <span id="temperatura">24°C</span>
+                    <span class="clima-icone" id="icone-emoji">☀️</span>
+                </div>
+                
+                <div class="descricao" id="descricao">Céu Limpo</div>
+                
+                <div class="detalhes">
+                    <div id="humidade">Umidade: --%</div>
+                    <div id="vento">Vento: -- km/h</div>
+                </div>
+            </div>
         </div>
     </div>
 
