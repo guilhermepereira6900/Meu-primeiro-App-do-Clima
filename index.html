@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>App do Clima ☀️🌧️</title>
     <style>
-        /* Fundo com imagem de paisagem desfocada */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: url('https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?q=80&w=1600&auto=format&fit=crop') no-repeat center center fixed;
@@ -20,21 +19,19 @@
             overflow: hidden;
         }
 
-        /* Camada borrada e efeito de chuva simulado em CSS */
         body::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0, 0, 0, 0.15);
-            backdrop-filter: blur(4px); /* Desfoca a paisagem de fundo */
+            backdrop-filter: blur(4px);
             z-index: 1;
         }
 
-        /* Efeito de Chuva Animada */
         .chuva {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: url('https://raw.githubusercontent.com/Al someStuff/rain/master/rain.png'); /* Textura de pingos transparentes */
+            background: url('https://raw.githubusercontent.com/Al someStuff/rain/master/rain.png');
             background-size: 400px 400px;
             animation: chover 0.6s linear infinite;
             z-index: 2;
@@ -44,10 +41,9 @@
 
         @keyframes chover {
             0% { background-position: 0% 0%; }
-            100% { background-position: 20% 100%; } /* Faz os pingos caírem na diagonal */
+            100% { background-position: 20% 100%; }
         }
 
-        /* O Balão Único Centralizado (Garante ficar acima da chuva) */
         .card {
             background: rgba(255, 255, 255, 0.95);
             width: 100%;
@@ -56,11 +52,10 @@
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
             overflow: hidden;
             text-align: center;
-            z-index: 10; /* Fica à frente de toda a chuva */
+            z-index: 10;
             transition: background 0.3s, color 0.3s;
         }
 
-        /* Cabeçalho Azul com Alinhamento do Botão de Dark Mode */
         .card-header {
             background: #93c5fd;
             padding: 20px;
@@ -73,7 +68,6 @@
             transition: background 0.3s;
         }
 
-        /* Botão de Alternar Modo Escuro */
         .theme-toggle {
             background: #fff;
             border: 1px solid #cbd5e1;
@@ -93,7 +87,6 @@
         h3 { margin: 0 0 5px 0; font-size: 18px; }
         p.subtext { font-size: 13px; color: #64748b; margin: 0 0 15px 0; transition: color 0.3s; }
 
-        /* Inputs e Botões */
         .input-group { margin-bottom: 15px; }
         input {
             width: 100%; padding: 12px;
@@ -118,9 +111,8 @@
 
         hr { border: 0; height: 1px; background: #e2e8f0; margin: 25px 0; transition: background 0.3s; }
 
-        /* Resultado */
         .resultado { display: none; margin-top: 20px; animation: fadeIn 0.5s ease-in-out; }
-        .cidade-titulo { font-size: 28px; font-weight: bold; margin-bottom: 10px; }
+        .cidade-titulo { font-size: 28px; font-weight: bold; }
         .temp-container { display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 48px; font-weight: bold; margin-bottom: 10px; }
         .clima-icone { font-size: 40px; }
         .descricao { font-size: 18px; text-transform: capitalize; color: #475569; margin-bottom: 15px; transition: color 0.3s; }
@@ -131,63 +123,18 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* =======================================================
-           ESTILOS DO MODO ESCURO (DARK MODE)
-           ======================================================= */
-        body.dark-mode::before {
-            background: rgba(0, 0, 0, 0.45); /* Escurece mais o fundo */
-        }
-
-        .card.dark-mode {
-            background: rgba(30, 41, 59, 0.95); /* Azul escuro semi-transparente */
-            color: #f1f5f9;
-        }
-
-        .card-header.dark-mode {
-            background: #1e3a8a; /* Azul marinho escuro */
-            color: #ffffff;
-        }
-
-        .theme-toggle.dark-mode {
-            background: #334155;
-            color: #f1f5f9;
-            border-color: #475569;
-        }
-
-        .card.dark-mode p.subtext,
-        .card.dark-mode .detalhes,
-        .card.dark-mode .descricao {
-            color: #94a3b8;
-        }
-
-        .card.dark-mode input {
-            background-color: #334155;
-            border-color: #475569;
-            color: white;
-        }
-
-        .card.dark-mode input:focus {
-            border-color: #60a5fa;
-            background-color: #1e293b;
-        }
-
-        .card.dark-mode .btn {
-            background: #334155;
-            color: white;
-            border-color: #475569;
-        }
-
-        .card.dark-mode .btn:hover {
-            background: #475569;
-        }
-
-        .card.dark-mode .btn-primary {
-            background: #2563eb;
-        }
-
-        .card.dark-mode hr {
-            background: #334155;
-        }
+        /* DARK MODE */
+        body.dark-mode::before { background: rgba(0, 0, 0, 0.45); }
+        .card.dark-mode { background: rgba(30, 41, 59, 0.95); color: #f1f5f9; }
+        .card-header.dark-mode { background: #1e3a8a; color: #ffffff; }
+        .theme-toggle.dark-mode { background: #334155; color: #f1f5f9; border-color: #475569; }
+        .card.dark-mode p.subtext, .card.dark-mode .detalhes, .card.dark-mode .descricao { color: #94a3b8; }
+        .card.dark-mode input { background-color: #334155; border-color: #475569; color: white; }
+        .card.dark-mode input:focus { border-color: #60a5fa; background-color: #1e293b; }
+        .card.dark-mode .btn { background: #334155; color: white; border-color: #475569; }
+        .card.dark-mode .btn:hover { background: #475569; }
+        .card.dark-mode .btn-primary { background: #2563eb; }
+        .card.dark-mode hr { background: #334155; }
     </style>
 </head>
 <body>
@@ -218,7 +165,10 @@
             </div>
 
             <div class="resultado" id="resultado">
-                <div class="cidade-titulo" id="nome-cidade">Cidade</div>
+                <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 10px;">
+                    <div class="cidade-titulo" id="nome-cidade" style="margin: 0;">Cidade</div>
+                    <button id="btn-favoritar" style="background: none; border: none; font-size: 22px; cursor: pointer; transition: transform 0.2s;">☆</button>
+                </div>
                 
                 <div class="temp-container">
                     <span id="temperatura">--°C</span>
