@@ -3,184 +3,202 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>App do Clima ☀️</title>
+    <title>App do Clima ☀️🌧️</title>
     <style>
-        /* Fundo com degradê suave e centralização total */
+        /* Fundo com imagem de paisagem desfocada */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #bfdbfe, #eff6ff);
+            background: url('https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?q=80&w=1600&auto=format&fit=crop') no-repeat center center fixed;
+            background-size: cover;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
             color: #334155;
+            position: relative;
+            overflow: hidden;
         }
 
-        /* O Balão Único Centralizado */
+        /* Camada borrada e efeito de chuva simulado em CSS */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(4px); /* Desfoca a paisagem de fundo */
+            z-index: 1;
+        }
+
+        /* Efeito de Chuva Animada */
+        .chuva {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://raw.githubusercontent.com/Al someStuff/rain/master/rain.png'); /* Textura de pingos transparentes */
+            background-size: 400px 400px;
+            animation: chover 0.6s linear infinite;
+            z-index: 2;
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        @keyframes chover {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 20% 100%; } /* Faz os pingos caírem na diagonal */
+        }
+
+        /* O Balão Único Centralizado (Garante ficar acima da chuva) */
         .card {
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
             width: 100%;
             max-width: 400px;
             border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
             overflow: hidden;
             text-align: center;
+            z-index: 10; /* Fica à frente de toda a chuva */
+            transition: background 0.3s, color 0.3s;
         }
 
-        /* Cabeçalho Azul */
+        /* Cabeçalho Azul com Alinhamento do Botão de Dark Mode */
         .card-header {
             background: #93c5fd;
             padding: 20px;
             margin: 0;
             font-size: 24px;
             font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
         }
 
-        /* Corpo do Card */
-        .card-body {
-            padding: 25px;
-        }
-
-        h3 {
-            margin: 0 0 5px 0;
-            font-size: 18px;
-        }
-
-        p.subtext {
-            font-size: 13px;
-            color: #64748b;
-            margin: 0 0 15px 0;
-        }
-
-        /* Inputs Modernos */
-        .input-group {
-            position: relative;
-            margin-bottom: 15px;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
+        /* Botão de Alternar Modo Escuro */
+        .theme-toggle {
+            background: #fff;
             border: 1px solid #cbd5e1;
-            border-radius: 8px;
+            padding: 6px 12px;
+            border-radius: 20px;
             font-size: 14px;
-            box-sizing: border-box;
-            background-color: #f8fafc;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             transition: all 0.3s;
         }
 
-        input:focus {
-            outline: none;
-            border-color: #3b82f6;
-            background-color: #fff;
+        .theme-toggle:hover {
+            transform: scale(1.05);
         }
 
-        /* Botões */
+        .card-body { padding: 25px; }
+        h3 { margin: 0 0 5px 0; font-size: 18px; }
+        p.subtext { font-size: 13px; color: #64748b; margin: 0 0 15px 0; transition: color 0.3s; }
+
+        /* Inputs e Botões */
+        .input-group { margin-bottom: 15px; }
+        input {
+            width: 100%; padding: 12px;
+            border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px;
+            box-sizing: border-box; background-color: #f8fafc;
+            transition: all 0.3s;
+        }
+        input:focus { outline: none; border-color: #3b82f6; background-color: #fff; }
+
         .btn {
-            width: 100%;
-            padding: 12px;
-            background: #fff;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            font-size: 14px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: background 0.2s;
+            width: 100%; padding: 12px; background: #fff;
+            border: 1px solid #cbd5e1; border-radius: 8px;
+            font-size: 14px; cursor: pointer; font-weight: 500; transition: all 0.2s;
         }
+        .btn:hover { background: #f1f5f9; }
+        .btn-primary { background: #2563eb; color: white; border: none; }
+        .btn-primary:hover { background: #1d4ed8; }
 
-        .btn:hover {
-            background: #f1f5f9;
-        }
+        .search-container { display: flex; gap: 10px; margin-top: 15px; }
+        .search-container input { flex: 1; }
+        .search-container .btn { width: auto; padding: 12px 20px; }
 
-        .btn-primary {
-            background: #2563eb;
-            color: white;
-            border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
+        hr { border: 0; height: 1px; background: #e2e8f0; margin: 25px 0; transition: background 0.3s; }
 
-        .btn-primary:hover {
-            background: #1d4ed8;
-        }
-
-        /* Container de Busca (Input + Botão lado a lado) */
-        .search-container {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .search-container input {
-            flex: 1;
-        }
-
-        .search-container .btn {
-            width: auto;
-            padding: 12px 20px;
-        }
-
-        /* Divisória */
-        hr {
-            border: 0;
-            height: 1px;
-            background: #e2e8f0;
-            margin: 25px 0;
-        }
-
-        /* Seção do Resultado */
-        .resultado {
-            display: none; /* Começa escondido, JS mostra depois */
-            margin-top: 20px;
-            animation: fadeIn 0.5s ease-in-out;
-        }
-
-        .cidade-titulo {
-            font-size: 28px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .temp-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            font-size: 48px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .clima-icone {
-            font-size: 40px;
-        }
-
-        .descricao {
-            font-size: 18px;
-            text-transform: capitalize;
-            color: #475569;
-            margin-bottom: 15px;
-        }
-
-        .detalhes {
-            font-size: 14px;
-            color: #64748b;
-            line-height: 1.6;
-        }
+        /* Resultado */
+        .resultado { display: none; margin-top: 20px; animation: fadeIn 0.5s ease-in-out; }
+        .cidade-titulo { font-size: 28px; font-weight: bold; margin-bottom: 10px; }
+        .temp-container { display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 48px; font-weight: bold; margin-bottom: 10px; }
+        .clima-icone { font-size: 40px; }
+        .descricao { font-size: 18px; text-transform: capitalize; color: #475569; margin-bottom: 15px; transition: color 0.3s; }
+        .detalhes { font-size: 14px; color: #64748b; line-height: 1.6; transition: color 0.3s; }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        /* =======================================================
+           ESTILOS DO MODO ESCURO (DARK MODE)
+           ======================================================= */
+        body.dark-mode::before {
+            background: rgba(0, 0, 0, 0.45); /* Escurece mais o fundo */
+        }
+
+        .card.dark-mode {
+            background: rgba(30, 41, 59, 0.95); /* Azul escuro semi-transparente */
+            color: #f1f5f9;
+        }
+
+        .card-header.dark-mode {
+            background: #1e3a8a; /* Azul marinho escuro */
+            color: #ffffff;
+        }
+
+        .theme-toggle.dark-mode {
+            background: #334155;
+            color: #f1f5f9;
+            border-color: #475569;
+        }
+
+        .card.dark-mode p.subtext,
+        .card.dark-mode .detalhes,
+        .card.dark-mode .descricao {
+            color: #94a3b8;
+        }
+
+        .card.dark-mode input {
+            background-color: #334155;
+            border-color: #475569;
+            color: white;
+        }
+
+        .card.dark-mode input:focus {
+            border-color: #60a5fa;
+            background-color: #1e293b;
+        }
+
+        .card.dark-mode .btn {
+            background: #334155;
+            color: white;
+            border-color: #475569;
+        }
+
+        .card.dark-mode .btn:hover {
+            background: #475569;
+        }
+
+        .card.dark-mode .btn-primary {
+            background: #2563eb;
+        }
+
+        .card.dark-mode hr {
+            background: #334155;
+        }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <div class="card-header">App do Clima ☀️</div>
+    <div class="chuva"></div>
+
+    <div class="card" id="card">
+        <div class="card-header" id="card-header">
+            <span>App do Clima ☀️</span>
+            <button class="theme-toggle" id="theme-btn">🌙 Modo Escuro</button>
+        </div>
         
         <div class="card-body">
             <h3>Configuração da API</h3>
@@ -196,18 +214,18 @@
             <h3>Buscar Clima</h3>
             <div class="search-container">
                 <input type="text" id="cidade" placeholder="Digite a cidade...">
-                <button class="btn btn-primary" id="buscar">🔍 Buscar</button>
+                <button class="btn btn-primary" id="buscar">Buscar</button>
             </div>
 
             <div class="resultado" id="resultado">
-                <div class="cidade-titulo" id="nome-cidade">São Paulo, BR</div>
+                <div class="cidade-titulo" id="nome-cidade">Cidade</div>
                 
                 <div class="temp-container">
-                    <span id="temperatura">24°C</span>
+                    <span id="temperatura">--°C</span>
                     <span class="clima-icone" id="icone-emoji">☀️</span>
                 </div>
                 
-                <div class="descricao" id="descricao">Céu Limpo</div>
+                <div class="descricao" id="descricao">Tempo</div>
                 
                 <div class="detalhes">
                     <div id="humidade">Umidade: --%</div>

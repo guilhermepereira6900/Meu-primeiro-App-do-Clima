@@ -1,3 +1,42 @@
+// =======================================================
+// LOGICA DO MODO ESCURO (DARK MODE)
+// =======================================================
+const themeBtn = document.getElementById('theme-btn');
+const body = document.body;
+const card = document.getElementById('card');
+const cardHeader = document.getElementById('card-header');
+
+// Verifica se o usuário já usava o modo escuro antes
+if (localStorage.getItem('tema_escuro') === 'true') {
+    aplicarModoEscuro(true);
+}
+
+themeBtn.addEventListener('click', () => {
+    // Inverte a classe (se tem tira, se não tem coloca)
+    const estaEscuro = body.classList.toggle('dark-mode');
+    card.classList.toggle('dark-mode');
+    cardHeader.classList.toggle('dark-mode');
+    themeBtn.classList.toggle('dark-mode');
+    
+    // Altera o texto do botão
+    themeBtn.innerText = estaEscuro ? "☀️ Modo Claro" : "🌙 Modo Escuro";
+    
+    // Salva a escolha do usuário
+    localStorage.setItem('tema_escuro', estaEscuro);
+});
+
+function aplicarModoEscuro(ativar) {
+    if (ativar) {
+        body.classList.add('dark-mode');
+        card.classList.add('dark-mode');
+        cardHeader.classList.add('dark-mode');
+        themeBtn.classList.add('dark-mode');
+        themeBtn.innerText = "☀️ Modo Claro";
+    }
+}
+// =======================================================
+// (O restante do seu script.js original continua aqui embaixo igual)
+// =======================================================
 // Verifica se já existe uma chave salva ao carregar a página
 window.addEventListener('DOMContentLoaded', () => {
     const chaveSalva = localStorage.getItem('clima_api_key');
